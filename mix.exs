@@ -21,7 +21,7 @@ defmodule Islands.Client.Summary.MixProject do
 
   defp description do
     """
-    Displays the summary of a _Game of Islands_.
+    Displays the summary of a Game of Islands.
     """
   end
 
@@ -56,9 +56,8 @@ defmodule Islands.Client.Summary.MixProject do
       {:islands_grid, "~> 0.1"},
       {:islands_score, "~> 0.1"},
       {:islands_tally, "~> 0.1"},
-      # {:islands_client_state, "~> 0.1"},
-      {:islands_client_state, path: "../islands_client_state"},
-      {:islands_client_island_type, path: "../islands_client_island_type"},
+      {:islands_client_state, "~> 0.1"},
+      {:islands_client_island_type, "~> 0.1"},
       {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.14", only: :dev, runtime: false},
       {:dialyxir, "~> 0.5", only: :dev, runtime: false}
