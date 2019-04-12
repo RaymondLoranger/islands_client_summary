@@ -32,8 +32,6 @@ defmodule Islands.Client.Summary do
   @spec do_display(ANSI.ansilist(), State.t()) :: State.t()
   defp do_display(message, state) do
     ANSI.puts(message)
-    Message.puts(:board_player, Tally.player(state.tally, state.player_id))
-    Message.puts(:guesses_player, Tally.opponent(state.tally, state.player_id))
     Message.puts(:board_score, state.tally.board_score)
     Message.puts(:guesses_score, state.tally.guesses_score)
     state.tally.board |> Grid.to_maps() |> Table.format()

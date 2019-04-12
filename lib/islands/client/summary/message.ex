@@ -37,43 +37,38 @@ defmodule Islands.Client.Summary.Message do
   def new(state, {:error, _reason}), do: Error.message(state)
   def new(state, _other), do: Other.message(state)
 
-  @spec puts(atom, Player.t() | Score.t()) :: :ok
-  def puts(:board_player, player) do
-    [ANSI.cursor_right(8), :chartreuse_yellow, center(player)] |> ANSI.puts()
+  @spec puts(atom, Score.t()) :: :ok
+  def puts(:board_score = _type, %Score{} = score) do
+    [ANSI.cursor_right(8), :chartreuse_yellow, player(score)] |> ANSI.puts()
+
+    [
+      [ANSI.cursor_right(8), top_score(score)],
+      ["\n", ANSI.cursor_right(8), bottom_score(score)]
+    ]
+    |> ANSI.puts()
   end
 
-  def puts(:guesses_player, player) do
+  def puts(:guesses_score = _type, %Score{} = score) do
     [
       ANSI.cursor_up(),
-      ANSI.cursor_right(41),
-      :chartreuse_yellow,
-      center(player)
+      [ANSI.cursor_right(41), :chartreuse_yellow, player(score)]
     ]
     |> ANSI.puts()
-  end
 
-  def puts(:board_score, score) do
     [
-      [ANSI.cursor_right(8), top_message(score)],
-      ["\n", ANSI.cursor_right(8), bottom_message(score)]
-    ]
-    |> ANSI.puts()
-  end
-
-  def puts(:guesses_score, score) do
-    [
-      [ANSI.cursor_up(2), ANSI.cursor_right(41), top_message(score)],
-      ["\n", ANSI.cursor_right(41), bottom_message(score)]
+      ANSI.cursor_up(2),
+      [ANSI.cursor_right(41), top_score(score)],
+      ["\n", ANSI.cursor_right(41), bottom_score(score)]
     ]
     |> ANSI.puts()
   end
 
   ## Private functions
 
-  @spec center(Player.t()) :: String.t()
-  defp center(player) do
-    name = String.slice(player.name, 0, 21 - 2)
-    text = "#{name} #{symbol(player.gender)}"
+  @spec player(Score.t()) :: String.t()
+  defp player(%Score{name: name, gender: gender}) do
+    name = String.slice(name, 0, 21 - 2)
+    text = "#{name} #{symbol(gender)}"
     span = div(21 + String.length(text), 2)
     String.pad_leading(text, span)
   end
@@ -82,18 +77,18 @@ defmodule Islands.Client.Summary.Message do
   defp symbol(:f), do: "♀"
   defp symbol(:m), do: "♂"
 
-  @spec top_message(Score.t()) :: ANSI.ansilist()
-  defp top_message(score) do
+  @spec top_score(Score.t()) :: ANSI.ansilist()
+  defp top_score(%Score{hits: hits, misses: misses}) do
     [
       [:chartreuse_yellow, "hits: "],
-      [:spring_green, String.pad_leading("#{score.hits}", 2)],
+      [:spring_green, String.pad_leading("#{hits}", 2)],
       [:chartreuse_yellow, "   misses: "],
-      [:spring_green, String.pad_leading("#{score.misses}", 2)]
+      [:spring_green, String.pad_leading("#{misses}", 2)]
     ]
   end
 
-  @spec bottom_message(Score.t()) :: ANSI.ansilist()
-  defp bottom_message(score) do
+  @spec bottom_score(Score.t()) :: ANSI.ansilist()
+  defp bottom_score(score) do
     [
       [[:reset, :spring_green, :underline], "forested"],
       [[:reset, @sp, :chartreuse_yellow], "=>"],
@@ -102,9 +97,9 @@ defmodule Islands.Client.Summary.Message do
   end
 
   @spec forested_codes(Score.t()) :: ANSI.ansilist()
-  defp forested_codes(score) do
+  defp forested_codes(%Score{forested_types: forested_types}) do
     for code <- @island_type_codes do
-      [attr(IslandType.new(code) in score.forested_types), code]
+      [attr(IslandType.new(code) in forested_types), code]
     end
   end
 

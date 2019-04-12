@@ -1,14 +1,14 @@
 defmodule Islands.Client.Summary.Message.Player2Added do
   alias IO.ANSI.Plus, as: ANSI
   alias Islands.Client.State
-  alias Islands.{Player, Tally}
+  alias Islands.{Score, Tally}
 
   @spec message(State.t()) :: ANSI.ansilist()
   def message(%State{
         player_id: :player1,
         tally: %Tally{
           request: {:add_player, rival, _gender, _pid},
-          player1: %Player{name: name}
+          board_score: %Score{name: name}
         }
       }) do
     [
@@ -22,7 +22,7 @@ defmodule Islands.Client.Summary.Message.Player2Added do
         player_id: :player2,
         tally: %Tally{
           request: {:add_player, name, _gender, _pid},
-          player1: %Player{name: rival}
+          guesses_score: %Score{name: rival}
         }
       }) do
     [
