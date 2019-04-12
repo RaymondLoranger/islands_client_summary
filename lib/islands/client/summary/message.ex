@@ -43,7 +43,7 @@ defmodule Islands.Client.Summary.Message do
     right = options[:right]
 
     [
-      ANSI.cursor_up(up),
+      if(up > 0, do: ANSI.cursor_up(up), else: ""),
       [ANSI.cursor_right(right), player(score)],
       "\n",
       [ANSI.cursor_right(right), top_score(score)],
