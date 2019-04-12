@@ -36,11 +36,11 @@ defmodule Islands.Client.Summary do
     Message.puts(:guesses_score, state.tally.guesses_score)
     state.tally.board |> Grid.to_maps() |> Table.format()
     state.tally.guesses |> Grid.to_maps() |> Table.format(@margins)
+    state
 
     # Default function => &Islands.Grid.Tile.new/1
     # fun = &Islands.Client.Summary.Tile.new/1
     # state.tally.board |> Grid.to_maps(fun) |> Table.format()
     # state.tally.guesses |> Grid.to_maps(fun) |> Table.format(@margins)
-    state
   end
 end
