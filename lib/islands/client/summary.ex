@@ -32,8 +32,8 @@ defmodule Islands.Client.Summary do
   @spec do_display(ANSI.ansilist(), State.t()) :: State.t()
   defp do_display(message, state) do
     ANSI.puts(message)
-    Message.puts(:board_score, state.tally.board_score)
-    Message.puts(:guesses_score, state.tally.guesses_score)
+    Message.score(state.tally.board_score, up: 0, right: 8)
+    Message.score(state.tally.guesses_score, up: 3, right: 41)
     state.tally.board |> Grid.to_maps() |> Table.format()
     state.tally.guesses |> Grid.to_maps() |> Table.format(@margins)
     state

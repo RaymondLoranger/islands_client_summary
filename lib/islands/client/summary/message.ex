@@ -37,40 +37,33 @@ defmodule Islands.Client.Summary.Message do
   def new(state, {:error, _reason}), do: Error.message(state)
   def new(state, _other), do: Other.message(state)
 
-  @spec puts(atom, Score.t()) :: :ok
-  def puts(:board_score = _type, %Score{} = score) do
-    [ANSI.cursor_right(8), :chartreuse_yellow, player(score)] |> ANSI.puts()
+  @spec score(Score.t(), Keyword.t()) :: :ok
+  def score(%Score{} = score, options) do
+    up = options[:up]
+    right = options[:right]
 
     [
-      [ANSI.cursor_right(8), top_score(score)],
-      ["\n", ANSI.cursor_right(8), bottom_score(score)]
-    ]
-    |> ANSI.puts()
-  end
-
-  def puts(:guesses_score = _type, %Score{} = score) do
-    [
-      ANSI.cursor_up(),
-      [ANSI.cursor_right(41), :chartreuse_yellow, player(score)]
-    ]
-    |> ANSI.puts()
-
-    [
-      ANSI.cursor_up(2),
-      [ANSI.cursor_right(41), top_score(score)],
-      ["\n", ANSI.cursor_right(41), bottom_score(score)]
+      ANSI.cursor_up(up),
+      [ANSI.cursor_right(right), player(score)],
+      "\n",
+      [ANSI.cursor_right(right), top_score(score)],
+      "\n",
+      [ANSI.cursor_right(right), bottom_score(score)]
     ]
     |> ANSI.puts()
   end
 
   ## Private functions
 
-  @spec player(Score.t()) :: String.t()
+  @spec player(Score.t()) :: ANSI.ansilist()
   defp player(%Score{name: name, gender: gender}) do
     name = String.slice(name, 0, 21 - 2)
-    text = "#{name} #{symbol(gender)}"
-    span = div(21 + String.length(text), 2)
-    String.pad_leading(text, span)
+    span = div(21 + String.length(name) + 2, 2) - 2
+
+    [
+      [:chartreuse_yellow, String.pad_leading(name, span)],
+      [:reset, @sp, :spring_green, "#{symbol(gender)}"]
+    ]
   end
 
   @spec symbol(Player.gender()) :: String.t()
@@ -90,8 +83,8 @@ defmodule Islands.Client.Summary.Message do
   @spec bottom_score(Score.t()) :: ANSI.ansilist()
   defp bottom_score(score) do
     [
-      [[:reset, :spring_green, :underline], "forested"],
-      [[:reset, @sp, :chartreuse_yellow], "=>"],
+      [:reset, :spring_green, :underline, "forested"],
+      [:reset, @sp, :chartreuse_yellow, "=>"],
       forested_codes(score)
     ]
   end
