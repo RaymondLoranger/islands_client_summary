@@ -43,7 +43,7 @@ defmodule Islands.Client.Summary.Message do
     right = options[:right]
 
     [
-      if(up > 0, do: ANSI.cursor_up(up), else: ""),
+      cursor_up(up),
       [ANSI.cursor_right(right), player(score)],
       "\n",
       [ANSI.cursor_right(right), top_score(score)],
@@ -54,6 +54,10 @@ defmodule Islands.Client.Summary.Message do
   end
 
   ## Private functions
+
+  @spec cursor_up(non_neg_integer) :: String.t()
+  defp cursor_up(up) when up > 0, do: ANSI.cursor_up(up)
+  defp cursor_up(_up), do: ""
 
   @spec player(Score.t()) :: ANSI.ansilist()
   defp player(%Score{name: name, gender: gender}) do
