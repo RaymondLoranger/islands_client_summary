@@ -12,7 +12,7 @@ defmodule Islands.Client.Summary.Message.HitNoneForested do
     [
       :dark_green_background,
       :light_white,
-      "Your guess #{Point.format(row, col)} => hit."
+      "Your guess #{Point.format(row, col)} ➔ hit."
     ]
   end
 
@@ -22,7 +22,7 @@ defmodule Islands.Client.Summary.Message.HitNoneForested do
     [
       :dark_green_background,
       :light_white,
-      "Opponent's guess #{Point.format(row, col)} => hit."
+      "Opponent's guess #{Point.format(row, col)} ➔ hit."
     ]
   end
 end

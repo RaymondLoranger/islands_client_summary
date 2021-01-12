@@ -3,5 +3,5 @@ defmodule Islands.Client.Summary.Island do
 
   @spec format(Island.type()) :: String.t()
   def format(island_type),
-    do: island_type |> Atom.to_string() |> String.upcase()
+    do: Atom.to_string(island_type) |> String.upcase()
 end

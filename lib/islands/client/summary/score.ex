@@ -50,7 +50,7 @@ defmodule Islands.Client.Summary.Score do
   defp bottom_score(score) do
     [
       [:reset, :spring_green, :underline, "forested"],
-      [:reset, @sp, :chartreuse_yellow, "=>", forested_codes(score)]
+      [:reset, @sp, :chartreuse_yellow, "➔", forested_codes(score)]
     ]
   end
 

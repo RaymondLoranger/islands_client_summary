@@ -10,8 +10,8 @@ defmodule Islands.Client.Summary.Message.Other do
       :light_white,
       "Unknown response...",
       :reset,
-      "\n#{inspect(request, pretty: true)} => ",
-      "\n#{inspect(response, pretty: true)}"
+      "\n#{inspect(request)} ➔ ",
+      "\n#{inspect(response)}"
     ]
   end
 end

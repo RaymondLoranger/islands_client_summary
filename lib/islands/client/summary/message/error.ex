@@ -8,7 +8,7 @@ defmodule Islands.Client.Summary.Message.Error do
     [
       :free_speech_red_background,
       :light_white,
-      "ERROR: #{reason |> Atom.to_string() |> String.replace("_", " ")}."
+      "ERROR: #{Atom.to_string(reason) |> String.replace("_", " ")}."
     ]
   end
 end

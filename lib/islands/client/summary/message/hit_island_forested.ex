@@ -16,7 +16,7 @@ defmodule Islands.Client.Summary.Message.HitIslandForested do
       :dark_green_background,
       :light_white,
       "Your guess #{Point.format(row, col)} ",
-      "=> #{Island.format(island_type)} forested."
+      "➔ #{Island.format(island_type)} forested."
     ]
   end
 
@@ -30,7 +30,7 @@ defmodule Islands.Client.Summary.Message.HitIslandForested do
       :dark_green_background,
       :light_white,
       "Opponent's guess #{Point.format(row, col)} ",
-      "=> #{Island.format(island_type)} forested."
+      "➔ #{Island.format(island_type)} forested."
     ]
   end
 end

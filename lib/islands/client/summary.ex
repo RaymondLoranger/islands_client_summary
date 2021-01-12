@@ -2,13 +2,10 @@
 # │ Inspired by the course "Elixir for Programmers" by Dave Thomas. │
 # └─────────────────────────────────────────────────────────────────┘
 defmodule Islands.Client.Summary do
-  use PersistConfig
-
-  @course_ref Application.get_env(@app, :course_ref)
-
   @moduledoc """
   Displays the summary of a _Game of Islands_.
-  \n##### #{@course_ref}
+
+  ##### Inspired by the course [Elixir for Programmers](https://codestool.coding-gnome.com/courses/elixir-for-programmers) by Dave Thomas.
   """
 
   alias __MODULE__.{Message, Score}
@@ -17,13 +14,11 @@ defmodule Islands.Client.Summary do
   alias Islands.Client.State
   alias Islands.{Grid, Tally}
 
-  @margins [margins: [left: 35, top: -12]]
-
   @spec display(State.t(), ANSI.ansilist()) :: State.t()
   def display(state, message \\ [])
 
   def display(%State{tally: %Tally{response: response}} = state, []),
-    do: state |> Message.new(response) |> do_display(state)
+    do: Message.new(state, response) |> do_display(state)
 
   def display(state, message), do: do_display(message, state)
 
@@ -34,13 +29,13 @@ defmodule Islands.Client.Summary do
     ANSI.puts(message)
     Score.format(state.tally.board_score, up: 0, right: 8)
     Score.format(state.tally.guesses_score, up: 3, right: 41)
-    state.tally.board |> Grid.to_maps() |> Table.format()
-    state.tally.guesses |> Grid.to_maps() |> Table.format(@margins)
+    Grid.to_maps(state.tally.board) |> Table.format(spec_name: "left")
+    Grid.to_maps(state.tally.guesses) |> Table.format(spec_name: "right")
     state
 
     # Default function => &Islands.Grid.Tile.new/1
     # fun = &Islands.Client.Summary.Tile.new/1
-    # state.tally.board |> Grid.to_maps(fun) |> Table.format()
-    # state.tally.guesses |> Grid.to_maps(fun) |> Table.format(@margins)
+    # Grid.to_maps(state.tally.board, fun) |> Table.format(spec_name: "left")
+    # Grid.to_maps(state.tally.guesses, fun) |> Table.format(spec_name: "right")
   end
 end

@@ -12,7 +12,7 @@ defmodule Islands.Client.Summary.Message.MissNoneForested do
     [
       :dark_green_background,
       :light_white,
-      "Your guess #{Point.format(row, col)} => miss."
+      "Your guess #{Point.format(row, col)} ➔ miss."
     ]
   end
 
@@ -22,7 +22,7 @@ defmodule Islands.Client.Summary.Message.MissNoneForested do
     [
       :dark_green_background,
       :light_white,
-      "Opponent's guess #{Point.format(row, col)} => miss."
+      "Opponent's guess #{Point.format(row, col)} ➔ miss."
     ]
   end
 end
