@@ -28,15 +28,15 @@ options = [
 ]
 
 config :islands_client_summary,
-  left_options: [
-    options,
-    spec_name: "left",
-    margins: [top: 0, bottom: 1, left: 2]
-  ]
+  left_options:
+    Keyword.merge(options,
+      spec_name: "left",
+      margins: [top: 0, bottom: 1, left: 2]
+    )
 
 config :islands_client_summary,
-  right_options: [
-    options,
-    spec_name: "right",
-    margins: [top: -12, bottom: 1, left: 35]
-  ]
+  right_options:
+    Keyword.merge(options,
+      spec_name: "right",
+      margins: [top: -12, bottom: 1, left: 35]
+    )
